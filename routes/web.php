@@ -2,6 +2,8 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController;
+use App\Http\Controllers\ProdukController;
+use App\Http\Controllers\LaporanPenjualanController;
 
 /*
 |--------------------------------------------------------------------------
@@ -71,3 +73,11 @@ Route::middleware(['auth', 'role:admin'])->prefix('admin')->group(function () {
                 </form>";
     })->name('admin.dashboard');
 });
+
+Route::get('/', function () {
+    return view('welcome');
+});
+// Routing menuju Controller
+Route::get('/produk', [ProdukController::class, 'index']);
+Route::get('/produk/{id}', [ProdukController::class, 'show']);
+Route::get('/laporan', LaporanPenjualanController::class);  
