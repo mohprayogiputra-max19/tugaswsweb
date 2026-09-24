@@ -46,14 +46,16 @@ class UserController extends Controller
 
     public function edit(int $id)
     {
-        $user = DB::table('users')->where('id', $id)->firstOrFail();
+        $user = DB::table('users')->where('id', $id)->first();
+        abort_unless($user, 404);
 
         return view('users.edit', compact('user'));
     }
 
     public function update(Request $request, int $id)
     {
-        $user = DB::table('users')->where('id', $id)->firstOrFail();
+        $user = DB::table('users')->where('id', $id)->first();
+        abort_unless($user, 404);
 
         $validated = $request->validate([
             'name' => ['required', 'string', 'max:255'],
