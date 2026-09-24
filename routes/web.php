@@ -4,8 +4,8 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\ProdukController;
 use App\Http\Controllers\LaporanPenjualanController;
-// Wajib ditaruh di atas sini ya brayy import-nya!
 use App\Http\Controllers\UserController; 
+use App\Http\Controllers\QueryBuilderController;
 
 /*
 |--------------------------------------------------------------------------
@@ -75,9 +75,16 @@ Route::middleware(['auth', 'role:admin'])->prefix('admin')->group(function () {
 });
 
 
+
 // ------------------------------------------------------------------------
 // RUTE PRODUK & LAPORAN
 // ------------------------------------------------------------------------
 Route::get('/produk', [ProdukController::class, 'index']);
 Route::get('/produk/{id}', [ProdukController::class, 'show']);
 Route::get('/laporan', LaporanPenjualanController::class);
+
+// Demo query builder: hanya membaca data dan mengembalikan JSON.
+Route::get('/query-demo', [QueryBuilderController::class, 'demo'])
+    ->name('query.demo');
+Route::get('/query-demo/page', [QueryBuilderController::class, 'demoPage'])
+    ->name('query.demo.page');
