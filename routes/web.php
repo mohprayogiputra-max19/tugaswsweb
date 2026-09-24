@@ -4,19 +4,16 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\ProdukController;
 use App\Http\Controllers\LaporanPenjualanController;
+// Wajib ditaruh di atas sini ya brayy import-nya!
+use App\Http\Controllers\UserController; 
 
 /*
 |--------------------------------------------------------------------------
 | Web Routes
 |--------------------------------------------------------------------------
-|
-| Here is where you can register web routes for your application. These
-| routes are loaded by the RouteServiceProvider and all of them will
-| be assigned to the "web" middleware group. Make something great!
-|
 */
 
-// Halaman Awal & Tes
+// Halaman Awal (Bawaan Laravel) - Cukup tulis satu kali saja
 Route::get('/', function () {
     return view('welcome');
 });
@@ -26,33 +23,37 @@ Route::get('/hello', function () {
 });
 
 // ------------------------------------------------------------------------
+// CRUD USERS
+// ------------------------------------------------------------------------
+Route::get('/users', [UserController::class, 'index'])->name('users.index');
+Route::get('/users/create', [UserController::class, 'create'])->name('users.create');
+Route::post('/users', [UserController::class, 'store'])->name('users.store');
+Route::get('/users/{id}/edit', [UserController::class, 'edit'])->name('users.edit');
+Route::put('/users/{id}', [UserController::class, 'update'])->name('users.update');
+Route::delete('/users/{id}', [UserController::class, 'destroy'])->name('users.destroy');
+
+
+// ------------------------------------------------------------------------
 // RUTE AUTHENTICATION (LOGIN & LOGOUT)
 // ------------------------------------------------------------------------
-
-// Halaman Tampilan Login User
 Route::get('/login', function () {
     return view('auth.user_login');
 })->name('login');
 
-// Halaman Tampilan Login Admin
 Route::prefix('admin')->group(function () {
     Route::get('/login', function () {
         return view('auth.admin_login');
     })->name('admin.login');
 });
 
-// Proses Submit Form Login (POST)
 Route::post('/login', [AuthController::class, 'authenticate'])->name('login.process');
 Route::post('/admin/login', [AuthController::class, 'authenticate'])->name('admin.login.process');
-
-// Proses Logout
 Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
+
 
 // ------------------------------------------------------------------------
 // RUTE DASHBOARD TERPROTEKSI (MIDDLEWARE AUTH & ROLE)
 // ------------------------------------------------------------------------
-
-// Dashboard User (Hanya bisa diakses jika sudah login & role = user)
 Route::middleware(['auth', 'role:user'])->group(function () {
     Route::get('/user/dashboard', function () {
         return "<h1>Selamat Datang di Dashboard User!</h1>
@@ -63,7 +64,6 @@ Route::middleware(['auth', 'role:user'])->group(function () {
     })->name('user.dashboard');
 });
 
-// Dashboard Admin (Hanya bisa diakses jika sudah login & role = admin)
 Route::middleware(['auth', 'role:admin'])->prefix('admin')->group(function () {
     Route::get('/dashboard', function () {
         return "<h1>Selamat Datang di Dashboard Admin!</h1>
@@ -74,10 +74,10 @@ Route::middleware(['auth', 'role:admin'])->prefix('admin')->group(function () {
     })->name('admin.dashboard');
 });
 
-Route::get('/', function () {
-    return view('welcome');
-});
-// Routing menuju Controller
+
+// ------------------------------------------------------------------------
+// RUTE PRODUK & LAPORAN
+// ------------------------------------------------------------------------
 Route::get('/produk', [ProdukController::class, 'index']);
 Route::get('/produk/{id}', [ProdukController::class, 'show']);
-Route::get('/laporan', LaporanPenjualanController::class);  
+Route::get('/laporan', LaporanPenjualanController::class);
