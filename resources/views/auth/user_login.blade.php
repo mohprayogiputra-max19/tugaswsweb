@@ -1,21 +1,32 @@
-<div class="flex items-center justify-center min-h-screen bg-gray-100">
-    <form action="/login" method="POST" class="w-full max-w-sm p-8 bg-white rounded-xl shadow-lg">
-        @csrf
-        <h2 class="mb-6 text-2xl font-bold text-center text-gray-800">Login Pengguna</h2>
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard Kasir</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-gray-100 flex items-center justify-center min-h-screen">
+    
+    <div class="w-full max-w-md p-8 bg-white rounded-xl shadow-lg text-center">
+        <h2 class="mb-2 text-3xl font-bold text-gray-800">Halo, Tim Kasir!</h2>
+        <p class="mb-8 text-gray-500">Mulai shift Anda dan layani pelanggan hari ini.</p>
         
-        <div class="mb-4">
-            <input type="email" name="email" placeholder="Email" required 
-                class="w-full px-4 py-2 text-gray-700 bg-gray-50 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:bg-white transition duration-200">
+        <div class="space-y-4">
+            <!-- Navigasi ke halaman mesin kasir (POS) -->
+            <a href="/produk" 
+               class="block w-full p-4 font-bold text-white bg-green-600 rounded-lg hover:bg-green-700 transition duration-200 shadow-md">
+                Buka Mesin Kasir (Transaksi)
+            </a>
         </div>
-        
-        <div class="mb-6">
-            <input type="password" name="password" placeholder="Password" required 
-                class="w-full px-4 py-2 text-gray-700 bg-gray-50 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:bg-white transition duration-200">
+
+        <div class="mt-6 border-t pt-6">
+            <form action="{{ route('logout') }}" method="POST">
+                @csrf
+                <button type="submit" class="text-sm font-semibold text-red-500 hover:underline">Keluar (End Shift)</button>
+            </form>
         </div>
-        
-        <button type="submit" 
-                class="w-full px-4 py-2 font-semibold text-white bg-blue-600 rounded-lg hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-1 transition duration-200">
-            Masuk
-        </button>
-    </form>
-</div>
+    </div>
+
+</body>
+</html>

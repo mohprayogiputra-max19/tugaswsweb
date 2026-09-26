@@ -9,6 +9,14 @@
 <body class="bg-gray-100 p-8">
 
     <div class="max-w-5xl mx-auto bg-white p-6 rounded-lg shadow-md">
+        
+        <!-- TOMBOL INTEGRASI: Kembali ke Dashboard -->
+        <div class="mb-6">
+            <a href="/admin" class="text-sm font-semibold text-gray-600 hover:text-blue-600 flex items-center">
+                &larr; Kembali ke Dashboard Admin
+            </a>
+        </div>
+
         <div class="flex items-center justify-between mb-4">
             <h2 class="text-2xl font-bold text-gray-800">Daftar Pengguna Sistem</h2>
             <a href="{{ route('users.create') }}" class="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700">Tambah Pengguna</a>
@@ -40,7 +48,7 @@
                     <td class="p-3 border">{{ $user->phone ?? '-' }}</td>
                     <td class="p-3 border">{{ ucfirst($user->role) }}</td>
                     <td class="p-3 border whitespace-nowrap">
-                        <a href="{{ route('users.edit', $user->id) }}" class="text-blue-600 hover:underline">Edit</a>
+                        <a href="{{ route('users.edit', ['id' => $user->id]) }}" class="text-blue-600 hover:underline">Edit</a>
                         <form action="{{ route('users.destroy', $user->id) }}" method="POST" class="inline" onsubmit="return confirm('Hapus pengguna ini?')">
                             @csrf
                             @method('DELETE')

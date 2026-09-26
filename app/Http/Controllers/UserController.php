@@ -6,6 +6,8 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Validation\Rule;
+use App\Models\User;
+use App\Http\Requests\UserRequest;
 
 class UserController extends Controller
 {
@@ -44,8 +46,11 @@ class UserController extends Controller
         return redirect()->route('users.index')->with('success', 'Pengguna berhasil ditambahkan.');
     }
 
-    public function edit(int $id)
+    public function edit(Request $request)
     {
+        $id = $request->query('id');
+        abort_unless(is_string($id) && ctype_digit($id), 404);
+
         $user = DB::table('users')->where('id', $id)->first();
         abort_unless($user, 404);
 
@@ -78,14 +83,18 @@ class UserController extends Controller
         }
 
         DB::table('users')->where('id', $id)->update($data);
-
         return redirect()->route('users.index')->with('success', 'Pengguna berhasil diperbarui.');
     }
 
     public function destroy(int $id)
     {
         DB::table('users')->where('id', $id)->delete();
-
         return redirect()->route('users.index')->with('success', 'Pengguna berhasil dihapus.');
+    }
+
+    public function submitForm(UserRequest $request)
+    {
+        User::create($request->validated());
+        return redirect()->back()->with('success', 'Data berhasil divalidasi dan disimpan!');
     }
 }
