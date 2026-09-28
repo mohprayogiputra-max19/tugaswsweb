@@ -11,8 +11,8 @@
         <h1 class="text-2xl font-bold mb-6 text-gray-800">Tambah Pengguna</h1>
 
         @if ($errors->any())
-            <div class="mb-4 rounded bg-red-100 px-4 py-3 text-red-800">
-                <ul class="list-disc pl-5">
+            <div class="mb-4 rounded bg-red-100 px-4 py-3 text-red-800 border border-red-200">
+                <ul class="list-disc pl-5 font-medium">
                     @foreach ($errors->all() as $error)
                         <li>{{ $error }}</li>
                     @endforeach
@@ -24,7 +24,7 @@
             @csrf
 
             <div>
-                <label for="name" class="block font-medium text-gray-700">Nama</label>
+                <label for="name" class="block font-medium text-gray-700">Nama (Gunakan Huruf Kapital)</label>
                 <input id="name" name="name" type="text" value="{{ old('name') }}" required class="mt-1 w-full rounded border border-gray-300 px-3 py-2 focus:border-blue-500 focus:outline-none focus:ring-2 focus:ring-blue-200">
             </div>
 
@@ -41,7 +41,7 @@
             <div>
                 <label for="role" class="block font-medium text-gray-700">Role</label>
                 <select id="role" name="role" required class="mt-1 w-full rounded border border-gray-300 px-3 py-2 focus:border-blue-500 focus:outline-none focus:ring-2 focus:ring-blue-200">
-                    <option value="user" @selected(old('role', 'user') === 'user')>User</option>
+                    <option value="user" @selected(old('role', 'user') === 'user')>Kasir (User)</option>
                     <option value="admin" @selected(old('role') === 'admin')>Admin</option>
                 </select>
             </div>
@@ -56,9 +56,9 @@
                 <input id="password_confirmation" name="password_confirmation" type="password" required class="mt-1 w-full rounded border border-gray-300 px-3 py-2 focus:border-blue-500 focus:outline-none focus:ring-2 focus:ring-blue-200">
             </div>
 
-            <div class="flex gap-3 pt-2">
-                <button type="submit" class="rounded bg-blue-600 px-4 py-2 text-white hover:bg-blue-700">Simpan</button>
-                <a href="{{ route('users.index') }}" class="rounded bg-gray-200 px-4 py-2 text-gray-700 hover:bg-gray-300">Batal</a>
+            <div class="flex gap-3 pt-4">
+                <button type="submit" class="rounded bg-blue-600 px-4 py-2 text-white hover:bg-blue-700 font-semibold transition">Simpan Data</button>
+                <a href="{{ route('users.index') }}" class="rounded bg-gray-200 px-4 py-2 text-gray-700 hover:bg-gray-300 font-semibold transition">Batal</a>
             </div>
         </form>
     </div>

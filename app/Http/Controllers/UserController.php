@@ -34,7 +34,7 @@ class UserController extends Controller
         ]);
 
         DB::table('users')->insert([
-            'name' => $validated['name'],
+            'name' => strtoupper($validated['name']),
             'email' => $validated['email'],
             'phone' => $validated['phone'] ?? null,
             'role' => $validated['role'],
@@ -71,7 +71,7 @@ class UserController extends Controller
         ]);
 
         $data = [
-            'name' => $validated['name'],
+            'name' => strtoupper($validated['name']),
             'email' => $validated['email'],
             'phone' => $validated['phone'] ?? null,
             'role' => $validated['role'],
