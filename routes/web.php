@@ -76,8 +76,12 @@ Route::middleware(['auth', 'role:admin'])->prefix('admin')->group(function () {
 // ------------------------------------------------------------------------
 // RUTE TRANSAKSI / DOMPET PRIBADI (Acara 19-20)
 // ------------------------------------------------------------------------
-// TAMBAHAN: Rute untuk menampilkan data dan menghapus (Soft Delete) transaksi
+// Rute CRUD transaksi
+Route::get('/transaksi/create', [TransactionController::class, 'create'])->name('transaksi.create');
 Route::get('/transaksi', [TransactionController::class, 'index'])->name('transaksi.index');
+Route::post('/transaksi', [TransactionController::class, 'store'])->name('transaksi.store');
+Route::get('/transaksi/{id}/edit', [TransactionController::class, 'edit'])->name('transaksi.edit');
+Route::put('/transaksi/{id}', [TransactionController::class, 'update'])->name('transaksi.update');
 Route::delete('/transaksi/{id}', [TransactionController::class, 'destroy'])->name('transaksi.destroy');
 
 
