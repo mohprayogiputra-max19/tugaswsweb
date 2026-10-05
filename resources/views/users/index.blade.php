@@ -48,7 +48,7 @@
                     <td class="p-3 border">{{ $user->phone ?? '-' }}</td>
                     <td class="p-3 border">{{ ucfirst($user->role) }}</td>
                     <td class="p-3 border whitespace-nowrap">
-                        <a href="{{ route('users.edit', ['id' => $user->id]) }}" class="text-blue-600 hover:underline">Edit</a>
+                        <a href="{{ route('users.edit', ['user' => $user->id]) }}" class="text-blue-600 hover:underline">Edit</a>
                         <form action="{{ route('users.destroy', $user->id) }}" method="POST" class="inline" onsubmit="return confirm('Hapus pengguna ini?')">
                             @csrf
                             @method('DELETE')

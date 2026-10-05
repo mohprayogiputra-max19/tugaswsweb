@@ -41,7 +41,7 @@
             <div>
                 <label for="role" class="block font-medium text-gray-700">Role</label>
                 <select id="role" name="role" required class="mt-1 w-full rounded border border-gray-300 px-3 py-2 focus:border-blue-500 focus:outline-none focus:ring-2 focus:ring-blue-200">
-                    <option value="user" @selected(old('role', 'user') === 'user')>Kasir (User)</option>
+                    <option value="kasir" @selected(old('role', 'kasir') === 'kasir')>Kasir</option>
                     <option value="admin" @selected(old('role') === 'admin')>Admin</option>
                 </select>
             </div>

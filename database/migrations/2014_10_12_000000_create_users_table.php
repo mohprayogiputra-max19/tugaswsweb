@@ -18,7 +18,7 @@ public function up()
         $table->timestamp('email_verified_at')->nullable();
         $table->string('password');
         // Tambahkan baris ini untuk membedakan role
-        $table->enum('role', ['admin', 'user'])->default('user'); 
+        $table->string('role')->default('kasir');
         $table->rememberToken();
         $table->timestamps();
     });

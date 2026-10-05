@@ -29,12 +29,12 @@ class UserController extends Controller
             'name' => ['required', 'string', 'max:255'],
             'email' => ['required', 'email', 'max:255', 'unique:users,email'],
             'phone' => ['nullable', 'string', 'max:30'],
-            'role' => ['required', Rule::in(['admin', 'user'])],
+            'role' => ['required', Rule::in(['admin', 'kasir'])],
             'password' => ['required', 'string', 'min:8', 'confirmed'],
         ]);
 
         DB::table('users')->insert([
-            'name' => strtoupper($validated['name']),
+            'name' => $validated['name'],
             'email' => $validated['email'],
             'phone' => $validated['phone'] ?? null,
             'role' => $validated['role'],
@@ -46,11 +46,8 @@ class UserController extends Controller
         return redirect()->route('users.index')->with('success', 'Pengguna berhasil ditambahkan.');
     }
 
-    public function edit(Request $request)
+    public function edit(int $id)
     {
-        $id = $request->query('id');
-        abort_unless(is_string($id) && ctype_digit($id), 404);
-
         $user = DB::table('users')->where('id', $id)->first();
         abort_unless($user, 404);
 
@@ -66,12 +63,12 @@ class UserController extends Controller
             'name' => ['required', 'string', 'max:255'],
             'email' => ['required', 'email', 'max:255', Rule::unique('users', 'email')->ignore($user->id)],
             'phone' => ['nullable', 'string', 'max:30'],
-            'role' => ['required', Rule::in(['admin', 'user'])],
+            'role' => ['required', Rule::in(['admin', 'kasir'])],
             'password' => ['nullable', 'string', 'min:8', 'confirmed'],
         ]);
 
         $data = [
-            'name' => strtoupper($validated['name']),
+            'name' => $validated['name'],
             'email' => $validated['email'],
             'phone' => $validated['phone'] ?? null,
             'role' => $validated['role'],

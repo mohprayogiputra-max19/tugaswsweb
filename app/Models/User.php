@@ -31,13 +31,4 @@ class User extends Authenticatable
 
     protected $dates = ['deleted_at'];
 
-    public function setNameAttribute($value)
-    {
-        $this->attributes['name'] = strtoupper($value);
-    }
-
-    public function setPasswordAttribute($value)
-    {
-        $this->attributes['password'] = bcrypt($value);
-    }
 }
