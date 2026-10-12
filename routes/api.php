@@ -1,5 +1,7 @@
 <?php
 
+use App\Http\Controllers\Api\SanctumAuthController;
+use App\Http\Controllers\Api\BookController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -14,6 +16,27 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
-    return $request->user();
+Route::post('/login', [SanctumAuthController::class, 'login'])
+    ->middleware('throttle:6,1');
+
+Route::middleware('auth:sanctum')->group(function () {
+    Route::get('/user', function (Request $request) {
+        $user = $request->user();
+
+        return response()->json([
+            'id' => $user->id,
+            'name' => $user->name,
+            'email' => $user->email,
+            'is_admin' => (int) ($user->role === 'admin'),
+            'email_verified_at' => $user->email_verified_at,
+            'role' => $user->role,
+            'created_at' => $user->created_at,
+            'updated_at' => $user->updated_at,
+        ]);
+    });
+
+    Route::post('/logout', [SanctumAuthController::class, 'logout']);
+    Route::post('/logout-all', [SanctumAuthController::class, 'logoutAll']);
 });
+
+Route::apiResource('books', BookController::class);
