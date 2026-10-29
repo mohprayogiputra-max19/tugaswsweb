@@ -3,42 +3,26 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
 class ProdukController extends Controller
 {
-    public function index()
+    public function cariProduk()
     {
-        // 1. Siapkan data kategori
-        $kategori = 'Elektronik & Gadget';
+        $keyword = 'Laptop';
+        $kategori = 'Elektronik';
+        $dataPerHalaman = 5;
+        $offset = 0; // Halaman 1 tidak melompati data apa pun
 
-        // 2. Siapkan data produk (biasanya ini diambil dari database, tapi kita pakai array dulu untuk contoh)
-        $daftarProduk = [
-            [
-                'id' => 1,
-                'nama' => 'Laptop Axioo Pongo 725',
-                'harga' => 12500000,
-            ],
-            [
-                'id' => 2,
-                'nama' => 'Mouse Gaming Wireless',
-                'harga' => 350000,
-            ],
-            [
-                'id' => 3,
-                'nama' => 'Keyboard Mechanical',
-                'harga' => 750000,
-            ],
-        ];
+        $produk = DB::table('produk')
+            ->select('id', 'nama_produk', 'kategori', 'harga', 'stok')
+            ->where('nama_produk', 'LIKE', '%' . $keyword . '%')
+            ->where('kategori', $kategori)
+            ->orderBy('harga', 'desc') // Mengurutkan dari harga termahal
+            ->limit($dataPerHalaman)
+            ->offset($offset)
+            ->get();
 
-        // 3. Kirim data ke file view (Blade)
-        // 'produk' merujuk ke nama file produk.blade.php di dalam folder resources/views/
-        // compact('kategori', 'daftarProduk') digunakan untuk mengirim variabel ke view
-        return view('produk', compact('kategori', 'daftarProduk'));
-    }
-
-    // Fungsi show untuk rute Route::get('/produk/{id}') yang ada di web.php kamu
-    public function show($id)
-    {
-        return "Ini adalah halaman detail untuk produk dengan ID: " . $id;
+        return response()->json($produk);
     }
 }

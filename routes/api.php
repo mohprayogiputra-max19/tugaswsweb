@@ -4,6 +4,7 @@ use App\Http\Controllers\Api\SanctumAuthController;
 use App\Http\Controllers\Api\BookController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\ProdukController;
 
 /*
 |--------------------------------------------------------------------------
@@ -40,3 +41,4 @@ Route::middleware('auth:sanctum')->group(function () {
 });
 
 Route::apiResource('books', BookController::class);
+Route::get('/cari-produk', [ProdukController::class, 'cariProduk']);
