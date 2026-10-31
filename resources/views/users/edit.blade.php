@@ -2,66 +2,90 @@
 <html lang="id">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Edit Pengguna</title>
-    <script src="https://cdn.tailwindcss.com"></script>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Edit Pengguna | {{ config('app.name', 'Laravel') }}</title>
+    @vite(['resources/css/app.css', 'resources/js/app.js'])
 </head>
-<body class="bg-gray-100 p-8">
-    <div class="max-w-2xl mx-auto bg-white p-6 rounded-lg shadow-md">
-        <h1 class="text-2xl font-bold mb-6 text-gray-800">Edit Pengguna</h1>
+<body class="min-h-screen bg-slate-50 text-slate-900 antialiased">
+    <header class="border-b border-slate-200 bg-white">
+        <div class="mx-auto flex max-w-7xl items-center justify-between px-4 py-4 sm:px-6 lg:px-8">
+            <a href="{{ route('admin.dashboard') }}" class="flex items-center gap-3 font-semibold tracking-tight text-slate-900">
+                <span class="flex h-10 w-10 items-center justify-center rounded-xl bg-indigo-600 text-lg text-white">P</span>
+                <span>{{ config('app.name', 'Toko') }}<span class="block text-xs font-normal text-slate-500">Manajemen pengguna</span></span>
+            </a>
+            <a href="{{ route('users.index') }}" class="rounded-lg px-3 py-2 text-sm font-medium text-slate-600 transition hover:bg-slate-100 hover:text-slate-900">&larr; Daftar pengguna</a>
+        </div>
+    </header>
 
-        @if ($errors->any())
-            <div class="mb-4 rounded bg-red-100 px-4 py-3 text-red-800">
-                <ul class="list-disc pl-5">
-                    @foreach ($errors->all() as $error)
-                        <li>{{ $error }}</li>
-                    @endforeach
-                </ul>
-            </div>
-        @endif
+    <main class="mx-auto max-w-3xl px-4 py-8 sm:px-6 sm:py-12">
+        <div class="mb-6">
+            <p class="text-sm font-semibold uppercase tracking-[0.16em] text-indigo-600">Perbarui akun</p>
+            <h1 class="mt-2 text-3xl font-bold tracking-tight text-slate-900">Edit Pengguna</h1>
+            <p class="mt-2 text-sm text-slate-500">Perbarui informasi atau hak akses pengguna. Password boleh dikosongkan jika tidak ingin diubah.</p>
+        </div>
 
-        <form action="{{ route('users.update', $user->id) }}" method="POST" class="space-y-4">
-            @csrf
-            @method('PUT')
+        <section class="rounded-3xl border border-slate-200 bg-white p-6 shadow-sm sm:p-8">
+            @if ($errors->any())
+                <div role="alert" class="mb-6 rounded-2xl border border-rose-200 bg-rose-50 px-4 py-3 text-sm text-rose-800">
+                    <p class="font-semibold">Periksa kembali data yang dimasukkan:</p>
+                    <ul class="mt-2 list-inside list-disc space-y-1">
+                        @foreach ($errors->all() as $error)
+                            <li>{{ $error }}</li>
+                        @endforeach
+                    </ul>
+                </div>
+            @endif
 
-            <div>
-                <label for="name" class="block font-medium text-gray-700">Nama</label>
-                <input id="name" name="name" type="text" value="{{ old('name', $user->name) }}" required class="mt-1 w-full rounded border border-gray-300 px-3 py-2 focus:border-blue-500 focus:outline-none focus:ring-2 focus:ring-blue-200">
-            </div>
+            <form action="{{ route('users.update', $user->id) }}" method="POST" class="space-y-5">
+                @csrf
+                @method('PUT')
 
-            <div>
-                <label for="email" class="block font-medium text-gray-700">Email</label>
-                <input id="email" name="email" type="email" value="{{ old('email', $user->email) }}" required class="mt-1 w-full rounded border border-gray-300 px-3 py-2 focus:border-blue-500 focus:outline-none focus:ring-2 focus:ring-blue-200">
-            </div>
+                <div>
+                    <label for="name" class="block text-sm font-semibold text-slate-700">Nama</label>
+                    <input id="name" name="name" type="text" value="{{ old('name', $user->name) }}" autocomplete="name" required class="mt-2 block w-full rounded-xl border-slate-300 px-4 py-3 text-sm shadow-sm focus:border-indigo-500 focus:ring-indigo-500">
+                    @error('name') <p class="mt-1 text-sm text-rose-600">{{ $message }}</p> @enderror
+                </div>
 
-            <div>
-                <label for="phone" class="block font-medium text-gray-700">No. Telepon</label>
-                <input id="phone" name="phone" type="text" value="{{ old('phone', $user->phone ?? '') }}" class="mt-1 w-full rounded border border-gray-300 px-3 py-2 focus:border-blue-500 focus:outline-none focus:ring-2 focus:ring-blue-200">
-            </div>
+                <div>
+                    <label for="email" class="block text-sm font-semibold text-slate-700">Email</label>
+                    <input id="email" name="email" type="email" value="{{ old('email', $user->email) }}" autocomplete="email" required class="mt-2 block w-full rounded-xl border-slate-300 px-4 py-3 text-sm shadow-sm focus:border-indigo-500 focus:ring-indigo-500">
+                    @error('email') <p class="mt-1 text-sm text-rose-600">{{ $message }}</p> @enderror
+                </div>
 
-            <div>
-                <label for="role" class="block font-medium text-gray-700">Role</label>
-                <select id="role" name="role" required class="mt-1 w-full rounded border border-gray-300 px-3 py-2 focus:border-blue-500 focus:outline-none focus:ring-2 focus:ring-blue-200">
-                    <option value="kasir" @selected(old('role', $user->role) === 'kasir')>Kasir</option>
-                    <option value="admin" @selected(old('role', $user->role) === 'admin')>Admin</option>
-                </select>
-            </div>
+                <div>
+                    <label for="phone" class="block text-sm font-semibold text-slate-700">No. Telepon <span class="font-normal text-slate-500">(opsional)</span></label>
+                    <input id="phone" name="phone" type="tel" value="{{ old('phone', $user->phone ?? '') }}" autocomplete="tel" class="mt-2 block w-full rounded-xl border-slate-300 px-4 py-3 text-sm shadow-sm focus:border-indigo-500 focus:ring-indigo-500">
+                    @error('phone') <p class="mt-1 text-sm text-rose-600">{{ $message }}</p> @enderror
+                </div>
 
-            <div>
-                <label for="password" class="block font-medium text-gray-700">Password (kosongkan jika tidak diubah)</label>
-                <input id="password" name="password" type="password" class="mt-1 w-full rounded border border-gray-300 px-3 py-2 focus:border-blue-500 focus:outline-none focus:ring-2 focus:ring-blue-200">
-            </div>
+                <div>
+                    <label for="role" class="block text-sm font-semibold text-slate-700">Role</label>
+                    <select id="role" name="role" required class="mt-2 block w-full rounded-xl border-slate-300 px-4 py-3 text-sm shadow-sm focus:border-indigo-500 focus:ring-indigo-500">
+                        <option value="kasir" @selected(old('role', $user->role) === 'kasir')>Kasir</option>
+                        <option value="admin" @selected(old('role', $user->role) === 'admin')>Admin</option>
+                    </select>
+                    @error('role') <p class="mt-1 text-sm text-rose-600">{{ $message }}</p> @enderror
+                </div>
 
-            <div>
-                <label for="password_confirmation" class="block font-medium text-gray-700">Konfirmasi Password</label>
-                <input id="password_confirmation" name="password_confirmation" type="password" class="mt-1 w-full rounded border border-gray-300 px-3 py-2 focus:border-blue-500 focus:outline-none focus:ring-2 focus:ring-blue-200">
-            </div>
+                <div class="grid gap-5 sm:grid-cols-2">
+                    <div>
+                        <label for="password" class="block text-sm font-semibold text-slate-700">Password <span class="font-normal text-slate-500">(opsional)</span></label>
+                        <input id="password" name="password" type="password" autocomplete="new-password" class="mt-2 block w-full rounded-xl border-slate-300 px-4 py-3 text-sm shadow-sm focus:border-indigo-500 focus:ring-indigo-500">
+                        <p class="mt-1 text-xs text-slate-500">Kosongkan jika tidak diubah.</p>
+                        @error('password') <p class="mt-1 text-sm text-rose-600">{{ $message }}</p> @enderror
+                    </div>
+                    <div>
+                        <label for="password_confirmation" class="block text-sm font-semibold text-slate-700">Konfirmasi Password</label>
+                        <input id="password_confirmation" name="password_confirmation" type="password" autocomplete="new-password" class="mt-2 block w-full rounded-xl border-slate-300 px-4 py-3 text-sm shadow-sm focus:border-indigo-500 focus:ring-indigo-500">
+                    </div>
+                </div>
 
-            <div class="flex gap-3 pt-2">
-                <button type="submit" class="rounded bg-blue-600 px-4 py-2 text-white hover:bg-blue-700">Perbarui</button>
-                <a href="{{ route('users.index') }}" class="rounded bg-gray-200 px-4 py-2 text-gray-700 hover:bg-gray-300">Batal</a>
-            </div>
-        </form>
-    </div>
+                <div class="flex flex-col-reverse gap-3 border-t border-slate-100 pt-6 sm:flex-row sm:justify-end">
+                    <a href="{{ route('users.index') }}" class="inline-flex justify-center rounded-xl border border-slate-300 px-5 py-3 text-sm font-semibold text-slate-700 transition hover:bg-slate-50 focus:outline-none focus:ring-2 focus:ring-indigo-500">Batal</a>
+                    <button type="submit" class="inline-flex justify-center rounded-xl bg-indigo-600 px-5 py-3 text-sm font-semibold text-white shadow-sm transition hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2">Perbarui</button>
+                </div>
+            </form>
+        </section>
+    </main>
 </body>
 </html>

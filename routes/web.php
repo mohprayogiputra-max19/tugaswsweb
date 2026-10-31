@@ -2,7 +2,7 @@
 
 use App\Http\Controllers\AdminController;
 use App\Http\Controllers\KasirController;
-use App\Http\Controllers\LaporanPenjualanController;
+use App\Http\Controllers\PointOfSaleController;
 use App\Http\Controllers\ProdukController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\TransactionController;
@@ -46,13 +46,25 @@ Route::middleware('auth')->group(function () {
         Route::get('/admin/dashboard', [AdminController::class, 'dashboard'])->name('admin.dashboard');
 
         Route::get('/products', [ProdukController::class, 'index'])->name('products.index');
+        Route::post('/products', [ProdukController::class, 'store'])->name('products.store');
+        Route::delete('/products/{id}', [ProdukController::class, 'destroy'])->name('products.destroy');
         Route::get('/products/{id}', [ProdukController::class, 'show'])->name('products.show');
-        Route::get('/reports', LaporanPenjualanController::class)->name('reports.index');
+        Route::get('/reports', fn () => redirect()->route('kasir.pos'))->name('reports.index');
         Route::resource('users', UserController::class)->except(['show']);
     });
 
     Route::middleware('role:kasir')->group(function () {
         Route::get('/kasir/dashboard', [KasirController::class, 'dashboard'])->name('kasir.dashboard');
+    });
+
+    Route::middleware('role:admin,kasir')->group(function () {
+        Route::get('/kasir/pos', [PointOfSaleController::class, 'index'])->name('kasir.pos');
+        Route::post('/kasir/cart', [PointOfSaleController::class, 'addToCart'])->name('kasir.cart.add');
+        Route::patch('/kasir/cart/{productId}', [PointOfSaleController::class, 'updateCart'])->name('kasir.cart.update');
+        Route::delete('/kasir/cart/{productId}', [PointOfSaleController::class, 'removeFromCart'])->name('kasir.cart.remove');
+        Route::delete('/kasir/cart', [PointOfSaleController::class, 'clearCart'])->name('kasir.cart.clear');
+        Route::post('/kasir/checkout', [PointOfSaleController::class, 'checkout'])->name('kasir.checkout');
+        Route::get('/kasir/nota/{transaction}', [PointOfSaleController::class, 'receipt'])->name('kasir.pos.receipt');
     });
 
     Route::middleware('role:admin,kasir')->group(function () {

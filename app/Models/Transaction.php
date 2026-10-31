@@ -9,7 +9,18 @@ class Transaction extends Model
     use SoftDeletes; // Aktifkan fitur hapus aman
 
     // 1. MASS ASSIGNMENT: Mengamankan input form (Acara 19)
-    protected $fillable = ['user_id', 'jenis', 'nominal', 'keterangan'];
+    protected $fillable = [
+        'user_id',
+        'jenis',
+        'nominal',
+        'keterangan',
+        'no_nota',
+        'subtotal',
+        'pajak',
+        'payment_method',
+        'paid_amount',
+        'change_amount',
+    ];
     protected $dates = ['deleted_at'];
 
     // 2. RELATIONSHIP: Relasi ke tabel User (Acara 19)
@@ -17,6 +28,11 @@ class Transaction extends Model
     public function user()
     {
         return $this->belongsTo(User::class);
+    }
+
+    public function items()
+    {
+        return $this->hasMany(TransactionItem::class);
     }
 
     // 3. ACCESSOR: Memformat angka menjadi Rupiah otomatis (Acara 19)

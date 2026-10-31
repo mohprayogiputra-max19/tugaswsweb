@@ -85,6 +85,17 @@ class UserController extends Controller
 
     public function destroy(int $id)
     {
+        $hasCompletedSales = DB::table('transactions')
+            ->where('user_id', $id)
+            ->whereNotNull('no_nota')
+            ->exists();
+
+        if ($hasCompletedSales) {
+            return redirect()->route('users.index')->withErrors([
+                'user' => 'Akun ini memiliki riwayat penjualan dan tidak dapat dihapus agar data transaksi tetap utuh.',
+            ]);
+        }
+
         DB::table('users')->where('id', $id)->delete();
         return redirect()->route('users.index')->with('success', 'Pengguna berhasil dihapus.');
     }

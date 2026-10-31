@@ -21,17 +21,17 @@
             </a>
 
             <!-- Modul 2: Kelola Produk (Menggunakan ProdukController yang ada di web.php) -->
-            <a href="/produk" 
+            <a href="{{ route('products.index') }}"
                class="p-6 bg-orange-50 border border-orange-200 rounded-lg hover:bg-orange-600 hover:text-white transition duration-300 group">
                 <h3 class="text-xl font-bold text-orange-700 group-hover:text-white">Katalog Produk</h3>
                 <p class="mt-2 text-sm text-orange-600 group-hover:text-orange-100">Atur harga & stok barang.</p>
             </a>
 
-            <!-- Modul 3: Laporan (Menggunakan LaporanPenjualanController) -->
-            <a href="/laporan" 
+            <!-- Modul 3: POS untuk mencatat penjualan -->
+            <a href="{{ route('kasir.pos') }}"
                class="p-6 bg-green-50 border border-green-200 rounded-lg hover:bg-green-600 hover:text-white transition duration-300 group">
-                <h3 class="text-xl font-bold text-green-700 group-hover:text-white">Laporan Penjualan</h3>
-                <p class="mt-2 text-sm text-green-600 group-hover:text-green-100">Cek rekap pendapatan.</p>
+                <h3 class="text-xl font-bold text-green-700 group-hover:text-white">POS / Kasir</h3>
+                <p class="mt-2 text-sm text-green-600 group-hover:text-green-100">Catat penjualan dan pembayaran.</p>
             </a>
         </div>
 

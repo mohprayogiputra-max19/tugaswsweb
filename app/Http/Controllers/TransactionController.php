@@ -33,6 +33,7 @@ class TransactionController extends Controller
     public function edit(int $id)
     {
         $transaksi = Transaction::findOrFail($id);
+        abort_if($transaksi->no_nota !== null, 403, 'Transaksi penjualan tidak dapat diubah dari halaman ini.');
         $users = User::orderBy('name')->get(['id', 'name', 'email']);
 
         return view('transaksi.edit', compact('transaksi', 'users'));
@@ -41,6 +42,7 @@ class TransactionController extends Controller
     public function update(Request $request, int $id)
     {
         $transaksi = Transaction::findOrFail($id);
+        abort_if($transaksi->no_nota !== null, 403, 'Transaksi penjualan tidak dapat diubah dari halaman ini.');
         $transaksi->update($this->validatedTransactionData($request));
 
         return redirect()->route('transaksi.index')->with('success', 'Transaksi berhasil diperbarui.');
@@ -50,6 +52,7 @@ class TransactionController extends Controller
     {
         // Fitur hapus data. Karena ada SoftDeletes di Model, data TIDAK akan hilang dari database.
         $transaksi = Transaction::findOrFail($id);
+        abort_if($transaksi->no_nota !== null, 403, 'Transaksi penjualan tidak dapat dihapus dari halaman ini.');
         $transaksi->delete();
         
         return redirect()->back()->with('success', 'Transaksi berhasil dihapus ke tong sampah.');
