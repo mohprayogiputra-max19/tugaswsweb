@@ -7,6 +7,7 @@ use App\Http\Controllers\ProdukController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\TransactionController;
 use App\Http\Controllers\UserController;
+use App\Http\Controllers\ChatController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -71,5 +72,13 @@ Route::middleware('auth')->group(function () {
         Route::resource('transaksi', TransactionController::class)->except(['show']);
     });
 });
+
+// Route untuk menampilkan halaman (UI) chatting
+Route::get('/chat', function () {
+    return view('chat');
+});
+
+// Route untuk memproses pengiriman pesan via AJAX
+Route::post('/send-message', [ChatController::class, 'sendMessage']);
 
 require __DIR__.'/auth.php';
