@@ -2,7 +2,7 @@
 
 namespace App\Events;
 
-use Illuminate\Broadcasting\Channel;
+use Illuminate\Broadcasting\PrivateChannel;
 use Illuminate\Broadcasting\InteractsWithSockets;
 use Illuminate\Contracts\Broadcasting\ShouldBroadcastNow;
 use Illuminate\Foundation\Events\Dispatchable;
@@ -12,10 +12,10 @@ class MessageSent implements ShouldBroadcastNow
 {
     use Dispatchable, InteractsWithSockets, SerializesModels;
 
-    public $username;
-    public $message;
+    public string $username;
+    public string $message;
 
-    public function __construct($username, $message)
+    public function __construct(string $username, string $message)
     {
         $this->username = $username;
         $this->message = $message;
@@ -23,9 +23,8 @@ class MessageSent implements ShouldBroadcastNow
 
     public function broadcastOn(): array
     {
-        // Menggunakan public channel 'chat' untuk percobaan sederhana
         return [
-            new Channel('chat'),
+            new PrivateChannel('chat'),
         ];
     }
 }

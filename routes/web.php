@@ -59,6 +59,9 @@ Route::middleware('auth')->group(function () {
     });
 
     Route::middleware('role:admin,kasir')->group(function () {
+        Route::get('/chat', fn () => view('chat'))->name('chat');
+        Route::post('/send-message', [ChatController::class, 'sendMessage'])->name('chat.send');
+
         Route::get('/kasir/pos', [PointOfSaleController::class, 'index'])->name('kasir.pos');
         Route::post('/kasir/cart', [PointOfSaleController::class, 'addToCart'])->name('kasir.cart.add');
         Route::patch('/kasir/cart/{productId}', [PointOfSaleController::class, 'updateCart'])->name('kasir.cart.update');
@@ -72,13 +75,5 @@ Route::middleware('auth')->group(function () {
         Route::resource('transaksi', TransactionController::class)->except(['show']);
     });
 });
-
-// Route untuk menampilkan halaman (UI) chatting
-Route::get('/chat', function () {
-    return view('chat');
-});
-
-// Route untuk memproses pengiriman pesan via AJAX
-Route::post('/send-message', [ChatController::class, 'sendMessage']);
 
 require __DIR__.'/auth.php';

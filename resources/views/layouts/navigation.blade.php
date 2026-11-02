@@ -16,6 +16,9 @@
                     <x-nav-link :href="route($dashboardRoute)" :active="request()->routeIs('admin.dashboard', 'kasir.dashboard')">
                         {{ __('Dashboard') }}
                     </x-nav-link>
+                    <x-nav-link :href="route('chat')" :active="request()->routeIs('chat')">
+                        {{ __('Chat Kasir') }}
+                    </x-nav-link>
                 </div>
             </div>
 
@@ -70,6 +73,9 @@
         <div class="pt-2 pb-3 space-y-1">
             <x-responsive-nav-link :href="route($dashboardRoute)" :active="request()->routeIs('admin.dashboard', 'kasir.dashboard')">
                 {{ __('Dashboard') }}
+            </x-responsive-nav-link>
+            <x-responsive-nav-link :href="route('chat')" :active="request()->routeIs('chat')">
+                {{ __('Chat Kasir') }}
             </x-responsive-nav-link>
         </div>
 

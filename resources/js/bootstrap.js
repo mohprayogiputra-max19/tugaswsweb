@@ -18,21 +18,23 @@ window.axios.defaults.headers.common['X-Requested-With'] = 'XMLHttpRequest';
 import Echo from 'laravel-echo';
 import Pusher from 'pusher-js';
 
-const pusherKey = import.meta.env.VITE_PUSHER_APP_KEY;
+const reverbKey = import.meta.env.VITE_REVERB_APP_KEY || import.meta.env.VITE_PUSHER_APP_KEY;
 
-if (pusherKey) {
-    const pusherScheme = import.meta.env.VITE_PUSHER_SCHEME || 'https';
-    const pusherPort = Number(import.meta.env.VITE_PUSHER_PORT || 443);
+if (reverbKey) {
+    const reverbScheme = import.meta.env.VITE_REVERB_SCHEME
+        || (window.location.protocol === 'https:' ? 'https' : 'http');
+    const reverbPort = Number(
+        import.meta.env.VITE_REVERB_PORT || (reverbScheme === 'https' ? 443 : 8080),
+    );
 
     window.Pusher = Pusher;
     window.Echo = new Echo({
-        broadcaster: 'pusher',
-        key: pusherKey,
-        cluster: import.meta.env.VITE_PUSHER_APP_CLUSTER || 'mt1',
-        wsHost: import.meta.env.VITE_PUSHER_HOST || undefined,
-        wsPort: pusherPort,
-        wssPort: pusherPort,
-        forceTLS: pusherScheme === 'https',
+        broadcaster: 'reverb',
+        key: reverbKey,
+        wsHost: import.meta.env.VITE_REVERB_HOST || window.location.hostname,
+        wsPort: reverbPort,
+        wssPort: reverbPort,
+        forceTLS: reverbScheme === 'https',
         enabledTransports: ['ws', 'wss'],
     });
 }

@@ -16,6 +16,7 @@
                         <a class="text-blue-700 underline" href="{{ route('users.index') }}">Pengguna</a>
                         <a class="text-blue-700 underline" href="{{ route('transaksi.index') }}">Transaksi</a>
                         <a class="text-blue-700 underline" href="{{ route('kasir.pos') }}">POS / Kasir</a>
+                        <a class="text-blue-700 underline" href="{{ route('chat') }}">Chat antar kasir</a>
                     </nav>
                 </div>
             </div>

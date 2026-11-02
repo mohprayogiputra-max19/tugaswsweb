@@ -134,3 +134,25 @@ jangan menyimpan atau membagikan token di repository.
 `GET /api/user` mengembalikan `id`, `name`, `email`, `is_admin` (`1` untuk
 admin, `0` untuk kasir), `email_verified_at`, `role`, `created_at`, dan
 `updated_at`. Password dan token tidak termasuk dalam respons data pengguna.
+
+## Chat realtime antar kasir
+
+Chat memakai Laravel Reverb. Isi `REVERB_APP_ID`, `REVERB_APP_KEY`, dan
+`REVERB_APP_SECRET` pada `.env` dengan kredensial aplikasi Reverb yang sama,
+lalu pastikan `REVERB_HOST`, `REVERB_PORT`, dan `REVERB_SCHEME` sesuai koneksi
+server. Browser memakai `VITE_REVERB_HOST` (kosong berarti hostname halaman
+chat), yang harus dapat dijangkau dari setiap komputer kasir. Kredensial
+`PUSHER_APP_*` yang sudah ada juga dipakai sebagai fallback jika kredensial
+Reverb belum diisi.
+
+Jalankan server Laravel, server Reverb, dan Vite pada terminal terpisah:
+
+```bash
+php artisan serve
+php artisan reverb:start
+npm run dev
+```
+
+Untuk produksi, jalankan `npm run build` setelah mengubah variabel `VITE_REVERB_*`.
+Pengguna harus masuk sebagai admin atau kasir untuk membuka chat dan menerima
+pesan realtime.

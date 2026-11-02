@@ -13,6 +13,7 @@
                     <p>Role: <strong>Kasir</strong></p>
                     <a class="text-blue-700 underline" href="{{ route('kasir.pos') }}">Buka kasir / POS</a>
                     <a class="text-blue-700 underline" href="{{ route('transaksi.index') }}">Riwayat transaksi</a>
+                    <a class="text-blue-700 underline" href="{{ route('chat') }}">Buka chat antar kasir</a>
                 </div>
             </div>
         </div>
